@@ -1,4 +1,4 @@
-package com.rahulhembrom.springsecuritydemo.entity.listener;
+package com.rahulhembrom.springsecuritydemo.event.listener;
 
 import com.rahulhembrom.springsecuritydemo.entity.User;
 import com.rahulhembrom.springsecuritydemo.event.RegistrationCompleteEvent;
