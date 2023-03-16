@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -23,17 +20,23 @@ public class RegistrationController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @GetMapping("/hello")
-    public String helloWorld()
-    {
-        return "Hello World!";
-    }
+//    @GetMapping("/hello")
+//    public String helloWorld()
+//    {
+//        return "Hello World!";
+//    }
 
     @PostMapping("/register")
     public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request){
         User user = userService.registerUser(userModel);
         publisher.publishEvent(new RegistrationCompleteEvent(user,getApplicationUrl(request)));
         return "Success";
+    }
+
+    @GetMapping("/verifyRegistration")
+    public String validateVerificationToken(@RequestParam("token") String token){
+        String verificationResponse = userService.validateVerificationToken(token);
+        return verificationResponse;
     }
 
     private String getApplicationUrl(HttpServletRequest request) {
