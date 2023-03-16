@@ -9,17 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
-@Controller
+@RestController
 public class RegistrationController {
     @Autowired
     private UserService userService;
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @GetMapping("/hello")
+    public String helloWorld()
+    {
+        return "Hello World!";
+    }
 
     @PostMapping("/register")
     public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request){

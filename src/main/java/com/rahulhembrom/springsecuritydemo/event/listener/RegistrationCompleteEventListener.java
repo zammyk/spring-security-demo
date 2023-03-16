@@ -6,10 +6,12 @@ import com.rahulhembrom.springsecuritydemo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Slf4j
+@Component
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
     @Autowired
     private UserService userService;
@@ -21,7 +23,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         userService.saveVerificationTokenForUser(token,user);
         // Send mail to the user
         String url = event.getApplicationUrl()
-                +"verifyRegistration?token="
+                +"/verifyRegistration?token="
                 +token;
         // send verification email
         // here we are mocking
