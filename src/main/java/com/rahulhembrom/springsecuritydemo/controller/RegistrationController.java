@@ -5,6 +5,8 @@ import com.rahulhembrom.springsecuritydemo.event.RegistrationCompleteEvent;
 import com.rahulhembrom.springsecuritydemo.model.UserModel;
 import com.rahulhembrom.springsecuritydemo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,12 +21,7 @@ public class RegistrationController {
     private UserService userService;
     @Autowired
     private ApplicationEventPublisher publisher;
-
-//    @GetMapping("/hello")
-//    public String helloWorld()
-//    {
-//        return "Hello World!";
-//    }
+    Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
     @PostMapping("/register")
     public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request){
