@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -58,5 +59,20 @@ public class UserServiceImpl implements UserService{
             return "Verified";
         }
         return "No user found.";
+    }
+
+    @Override
+    public VerificationToken generateNewVerificationToken(String oldToken) {
+        Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByToken(oldToken);
+        try{
+            VerificationToken verificationToken = optionalVerificationToken.get();
+            verificationToken.setToken(UUID.randomUUID().toString());
+            verificationToken.resetExpirationTime();
+            verificationTokenRepository.save(verificationToken);
+            return verificationToken;
+        }
+        catch (Exception e){
+            throw e;
+        }
     }
 }

@@ -37,6 +37,10 @@ public class VerificationToken {
         this.expirationTime = calculateExpirationTime(EXPIRATION_MINUTES);
     }
 
+    public void resetExpirationTime(){
+        this.expirationTime = calculateExpirationTime(EXPIRATION_MINUTES);
+    }
+
     private Date calculateExpirationTime(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());

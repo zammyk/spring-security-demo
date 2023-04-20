@@ -1,7 +1,9 @@
 package com.rahulhembrom.springsecuritydemo.controller;
 
 import com.rahulhembrom.springsecuritydemo.entity.User;
+import com.rahulhembrom.springsecuritydemo.entity.VerificationToken;
 import com.rahulhembrom.springsecuritydemo.event.RegistrationCompleteEvent;
+import com.rahulhembrom.springsecuritydemo.event.ResendVerificationTokenEvent;
 import com.rahulhembrom.springsecuritydemo.model.UserModel;
 import com.rahulhembrom.springsecuritydemo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +36,15 @@ public class RegistrationController {
     public String validateVerificationToken(@RequestParam("token") String token){
         String verificationResponse = userService.validateVerificationToken(token);
         return verificationResponse;
+    }
+
+    @GetMapping("/resendVerificationURL")
+    public String resendVerificationToken(@RequestParam("token") String oldToken,
+                                          HttpServletRequest request){
+        VerificationToken verificationToken = userService.generateNewVerificationToken(oldToken);
+        User user = verificationToken.getUser();
+        publisher.publishEvent(new ResendVerificationTokenEvent(user,getApplicationUrl(request),verificationToken));
+        return "Resent new email verification link.";
     }
 
     private String getApplicationUrl(HttpServletRequest request) {
